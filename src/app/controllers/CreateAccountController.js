@@ -97,15 +97,17 @@ class UserController {
     );
 
     return res.json({
-      id,
-      email,
-      name,
-      age,
-      sex,
-      bio,
-      filename: req.body.filename,
-      latitude,
-      longitude,
+      user: {
+        name,
+        age,
+        sex,
+        bio,
+        id,
+        filename: req.body.filename,
+        latitude,
+        longitude,
+        email,
+      },
       token,
     });
   }

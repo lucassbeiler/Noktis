@@ -57,17 +57,18 @@ class LoginController {
         { where: { user_id: id } },
       );
 
-      const profile = {
-        id,
-        name,
-        age,
-        sex,
-        bio,
-        filename,
-        email,
+      return res.json({
+        user: {
+          id,
+          name,
+          age,
+          sex,
+          bio,
+          filename,
+          email,
+        },
         token,
-      };
-      return res.json(profile);
+      });
     } catch (error) {
       return res.status(400).json({ error: 'Acesso negado' });
     }

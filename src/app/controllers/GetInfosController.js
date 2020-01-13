@@ -12,7 +12,7 @@ class GetInfosController {
         age_range: user.choices.age_range,
         max_distance: user.choices.max_distance,
       };
-      return res.status(200).json(profile);
+      return res.status(200).json({ profile });
     } catch (error) {
       return res.status(400).json({ error: 'Usuário inexistente' });
     }
