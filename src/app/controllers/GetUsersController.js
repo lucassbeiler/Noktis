@@ -12,7 +12,7 @@ class GetOnlineController {
       const user = await User.findOne({ where: { id: req.userId }, include: ['profiles', 'choices', 'locations'] });
 
       if (!(user.locations.latitude && user.locations.longitude)) {
-        return res.status(400).json({ error: 'localização não informada' });
+        return res.status(400).json({ error: 'Localização desconhecida' });
       }
 
       let oppositeSex;
@@ -48,9 +48,9 @@ class GetOnlineController {
 
       const userFilter = distanceFilter(users, user.choices.max_distance);
 
-      return res.status(200).json({ userFilter });
+      return res.status(200).json(userFilter);
     } catch (error) {
-      return res.status(400).json({ error: 'Erro em buscar os usuários' });
+      return res.status(400).json({ error: 'Erro ao encontrar usuários' });
     }
   }
 }

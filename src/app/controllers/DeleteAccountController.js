@@ -1,18 +1,16 @@
 import { promisify } from 'util';
 import { unlink } from 'fs';
-import * as Yup from 'yup';
 import User from '../models/User';
 
+import deleteAccountValidator from '../functions/libs/deleteAccountValidator';
+
 class DeleteAccountController {
-  async store(req, res) {
+  async delete(req, res) {
     try {
-      const schema = Yup.object().shape({
-        password: Yup.string()
-          .required(),
-      });
+      const schema = deleteAccountValidator;
 
       if (!(await schema.isValid(req.body))) {
-        return res.status(400).json({ error: 'Falha ao validar' });
+        return res.status(400).json({ error: 'Erro na validação' });
       }
 
       const unlinkDelete = promisify(unlink);
@@ -22,11 +20,11 @@ class DeleteAccountController {
       const { password } = req.body;
 
       if (user.connections.expire_token.includes(req.headers.authorization)) {
-        return res.status(403).json({ error: 'O usuário não está logado' });
+        return res.status(403).json({ error: 'O Usuário não está autenticado!' });
       }
 
       if (!(await user.checkPassword(password))) {
-        return res.status(400).json({ error: 'senha informada é inválida' });
+        return res.status(400).json({ error: 'Senha incorreta' });
       }
 
       if (user.profiles.filename === 'default_avatar_female.jpg' || user.profiles.filename === 'default_avatar_male.jpg') {
@@ -51,7 +49,7 @@ class DeleteAccountController {
 
       return res.status(200).json({ ok: true });
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao delete a conta' });
+      return res.status(400).json({ error: 'Erro ao encerrar conta' });
     }
   }
 }

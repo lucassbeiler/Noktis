@@ -1,43 +1,35 @@
-import sequelize from 'sequelize';
-import User from '../models/User';
+import { randomBytes } from 'crypto';
+
+import Post from '../models/Post';
 
 class PostController {
   async store(req, res) {
     try {
-      const user = await User.findOne({ where: { id: req.userId }, include: ['posts'] });
+      const user = await Post.findOne({ where: { user_id: req.userId } });
 
       const post = {
+        id: randomBytes(12).toString('hex'),
         date: Date.now(),
       };
 
-      if (req.file && req.body.description) {
-        const { filename: image } = req.file;
-
-        const { description } = req.body;
-
-        post.image = image;
-
-        post.description = description;
-      } else if (req.file && !req.body.description) {
-        const { filename: image } = req.file;
-
-        post.image = image;
-      } else if (!req.file && req.body.description) {
-        const { description } = req.body;
-
-        post.description = description;
+      if (req.files && req.body.description) {
+        post.image = req.files.map((file) => file.filename);
+        post.description = req.body.description;
+      } else if (req.files && !req.body.description) {
+        post.image = req.files.map((file) => file.filename);
+      } else if (!req.files && req.body.description) {
+        post.description = req.body.description;
       } else {
-        return res.status(400).json({ error: 'Erro ao processar o post' });
+        return res.status(400).json({ error: 'Erro ao processar sua publicação' });
       }
 
-      await user.posts.update(
-        { post: sequelize.fn('array_append', sequelize.col('post'), JSON.stringify(post)) },
-        { where: { user_id: user.id } },
-      );
+      user.post.unshift(post);
+
+      await user.update({ post: user.post });
 
       return res.status(200).json({ post });
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao processar o post' });
+      return res.status(400).json({ error: 'Erro ao processar sua publicação' });
     }
   }
 }

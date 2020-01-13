@@ -1,10 +1,10 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model, ARRAY, JSON } from 'sequelize';
 
 class Post extends Model {
   static init(sequelize) {
     super.init(
       {
-        post: Sequelize.ARRAY(Sequelize.JSON),
+        post: ARRAY(JSON),
       },
       {
         sequelize,

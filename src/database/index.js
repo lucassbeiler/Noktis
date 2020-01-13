@@ -7,8 +7,7 @@ import Choice from '../app/models/Choice';
 import Connection from '../app/models/Connection';
 import Post from '../app/models/Post';
 
-
-import databaseConfig from '../config/database';
+import db from '../config/database';
 
 const models = [User, Profile, Location, Choice, Connection, Post];
 
@@ -18,7 +17,7 @@ class Database {
   }
 
   init() {
-    this.connection = new Sequelize(databaseConfig);
+    this.connection = new Sequelize(db);
 
     models.map((model) => model.init(this.connection))
       .map((model) => model.associate && model.associate(this.connection.models));

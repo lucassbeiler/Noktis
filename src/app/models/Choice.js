@@ -1,14 +1,16 @@
-import Sequelize, { Model } from 'sequelize';
+import {
+  Model, ARRAY, INTEGER, STRING,
+} from 'sequelize';
 
 class Choice extends Model {
   static init(sequelize) {
     super.init(
       {
-        likes: Sequelize.ARRAY(Sequelize.INTEGER),
-        dislikes: Sequelize.ARRAY(Sequelize.INTEGER),
-        matches: Sequelize.ARRAY(Sequelize.INTEGER),
-        age_range: Sequelize.ARRAY(Sequelize.INTEGER),
-        max_distance: Sequelize.STRING,
+        likes: ARRAY(INTEGER),
+        dislikes: ARRAY(INTEGER),
+        matches: ARRAY(INTEGER),
+        age_range: ARRAY(INTEGER),
+        max_distance: STRING,
       },
       {
         sequelize,

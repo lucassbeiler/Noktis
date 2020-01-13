@@ -173,7 +173,7 @@ class UserController {
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(400).json({ error: 'As senhas não coincidem' });
+      return res.status(400).json({ error: 'A senha atual informada é incorreta' });
     }
 
     const { name, bio, filename } = await user.profiles.update(req.body);

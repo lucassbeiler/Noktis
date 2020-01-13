@@ -29,6 +29,7 @@ module.exports = {
     bio: {
       type: Sequelize.STRING,
       allowNull: false,
+      defaultValue: '...',
     },
     filename: {
       type: Sequelize.STRING,

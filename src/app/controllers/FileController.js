@@ -1,17 +1,17 @@
-import User from '../models/User';
+import Profile from '../models/Profile';
 
 class FileController {
   async store(req, res) {
     try {
-      const user = await User.findOne({ where: { id: req.userId }, include: ['profiles'] });
+      const user = await Profile.findOne({ where: { user_id: req.userId } });
 
       const { filename } = req.file;
 
-      await user.profiles.update({ filename });
+      await user.update({ filename });
 
       return res.status(200).json({ filename });
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao processar o arquivo' });
+      return res.status(400).json({ error: 'Erro ao processar arquivo' });
     }
   }
 }

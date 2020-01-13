@@ -1,14 +1,16 @@
-import Sequelize, { Model } from 'sequelize';
+import {
+  Model, STRING, ARRAY, JSON,
+} from 'sequelize';
 
 class Connection extends Model {
   static init(sequelize) {
     super.init(
       {
-        socket: Sequelize.STRING,
-        expire_token: Sequelize.ARRAY(Sequelize.STRING),
-        sessions: Sequelize.ARRAY(Sequelize.JSON),
-        await_message: Sequelize.ARRAY(Sequelize.JSON),
-        await_matches: Sequelize.ARRAY(Sequelize.JSON),
+        socket: STRING,
+        expire_token: ARRAY(STRING),
+        sessions: ARRAY(JSON),
+        await_message: ARRAY(JSON),
+        await_matches: ARRAY(JSON),
       },
       {
         sequelize,

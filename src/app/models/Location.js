@@ -1,12 +1,12 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model, DOUBLE, STRING } from 'sequelize';
 
 class Location extends Model {
   static init(sequelize) {
     super.init(
       {
-        latitude: Sequelize.DOUBLE,
-        longitude: Sequelize.DOUBLE,
-        address: Sequelize.STRING,
+        latitude: DOUBLE,
+        longitude: DOUBLE,
+        address: STRING,
       },
       {
         sequelize,
